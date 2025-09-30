@@ -1,0 +1,101 @@
+Concurrency and multithreading:
+
+1. Concurrency means running multiple tasks simultaneaously  
+2. Execute tasks in parallel, manage shared resources and handle synchronization
+
+Benefits:
+
+1. Improves application performance and responsiveness. 
+
+
+Key concepts: 
+1. A thread     : the smallest unit of execution in a java program
+2. concurrency  : Running multiple tasks simultaneaously on a CPU or multiple CPU cores
+3. Thread safety: Ensures shared resources are accessed safely by multiple threads.  
+
+How to create a thread? 
+1. Extending Thread class or implementing the Runnable interface 
+
+
+What is the lifecycle of a thread? 
+new          = created, not started
+Runnable     = ready to run or running
+blocked      = waiting for a resource or monitor lock
+time waiting = waiting for a specified time (via sleep() or wait())
+terminated   = completed execution. 
+
+Synchronization: It ensures that a thread only accesses a certain method or section of code at a time. 
+
+* Synchronized keyword or synchronized block ensure only one thread executes a method at a time. 
+
+* When using synchronization we can create a static final lock of type Object. This will get passed to the Synchronized lock as the classes
+independent lock. 
+Note   -> Locks can be any object since all objects have an instrinsic monitor. 
+Note 2 -> This can be used for synchronized blocks, however it will potentially lead to external code Synchronizing on the same lock. 
+
+ADVANCED LOCKING:
+
+* Using concurrent locks:
+1. It provides the ReentrantLock class. ReentrantLock allows methods to be locked and unlocked. This creates safety, since if there are
+exceptions while locking, a try / finally block can make sure those locks will be released preventing deadlocks.
+
+2. ReentrantLock allows a thread to attempt acquiring a lock with a timeout. 
+
+3. It can acquire the lock multiple times without deadlocking itself. 
+
+* Using Executor Framework - Abstracting thread creation and pooling
+1. Solves to problem of manually creating and managing threads. 
+2. It's a framework for reusing a pool of threads, scheduling tasks and managing their lifecycle. 
+3. Threads are reused for multiple tasks, avoiding overhead of creating new threads each time. 
+4. Executor decides which thread runs the task and when. 
+
+COMMON INTERVIEW QUESTIONS: 
+
+1. How does synchronized work, how does it ensure thread safety, what is the role of the monitor in this process? 
+The synchronized keyword enforces mutual exclusion, allowing a thread to execute a block or method at a time.
+It uses a monitor/lock associated with every Java object -  JVM uses monitorenter / monitorexit
+When a thread a synchronized block it acquires the monitor of the specified object. 
+
+2. What is the difference between ReentrantLock and synchronized? in what situations would you prefer using ReentrantLock over 
+syncrhonized?
+Synchronized locks are implicit and scoped to a block/method vs. ReentrantLock allows explicit lock/unlock
+RE supports fair locking = Threads acquire the lock in the order they requested it. The longest-waiting thread gets the lock next
+RE supports try locking = a thread attempts to acquire a lock without waiting indefinitely.
+
+3. Describe the Java Memory Model(JMM). How does it define the happens-before relationship, and why is it critical for 
+multithreaded applications? 
+* JMM defines how threads interact with memory. Ensuring consistent visibility of changes across threads. 
+* Volatile: Write happens-before subsequent reads of that variable
+
+4. What are the advantages and disadvantages of using the volatile keyword in Java? Can you provide a practical example where it is
+essential? 
+Advantages: 
+- volatile ensures visibility on writes when multithreading. If a variable is updated so when another thread reads to it, it will be
+reflected
+- a write to a volatile variable by one thread happens-before any subsequent read of that variable by another thread. 
+
+Disadvantages:
+- It's useful only for multithreaded applications 
+- Not useful for compound operations like ++ 
+- Only suitable for single-variable updates.
+
+Example:
+- long and doubles in Java execute in two operations. volatile makes other threads have visibility on these operations. 
+
+5. What is a thread pool, and how does ThreadPoolExecutor work in Java? Why is core pool size, maximum pool size and keep-alive time
+important? 
+A thread pool is a collection of threads that execute tasks, reducing the overhead of manually creating and maintaining threads. It 
+allows re-usability of Threads. 
+
+ThreadPoolExecutor -> tasks are submitted to a queue, threads execute tasks and if they are all busy and the queue is full, new threads
+are created (up to maximumPoolSize), idle threads beyong corePoolSize are terminated after keepAliveTime. 
+
+6. What is the difference between Callable and Runnable interfaces? How does the Future interface complement Callable in concurrent
+programming?
+
+* Atomicity is the property of an operation that ensures it is performed completely or not at all, without any intermediate state being 
+visible to other threads. An operation is atomic if a single indivisible operation is required to complete it. 
+Count++ is not atomic, because it requires -> 3 operations read-add-write.
+assigning values to not primitive types is not atomic either since it's divided into two operations. 
+Compound operations are not atomic 
+Why is this important? because during those multiple operations a thread might access any of those operations causing race conditions
