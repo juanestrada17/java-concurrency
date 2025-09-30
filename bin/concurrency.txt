@@ -93,6 +93,33 @@ are created (up to maximumPoolSize), idle threads beyong corePoolSize are termin
 6. What is the difference between Callable and Runnable interfaces? How does the Future interface complement Callable in concurrent
 programming?
 
+Runnable is void, while Callable returns a type
+Runnable is for tasks with no result, callable is for tasks that produce results 
+Runnable is used with Thread or Executor, while Callable is used with ExecutorService -> See FutureExample.java
+Callable computes a result, while Future retrieves it asynchronously
+
+7. What is the ForkJoinPool framework? How does it implement work-stealing and what types of problems is it best suited for? 
+It's a specialized ExecutorService for divide-and-conquer tasks -> recursive, parallelizable problems
+Work-Stealing - balancing workload -> Each thread has a double-ended queue(deque) of tasks, if a thread's queue is empty it steals tasks
+from another thread's deque/tail.
+
+8. What is a deadlock in Java? How does it happen, how to detect it, and strategies to prevent it in a multithreaded application
+* A situation where two or more threads are blocked forever, waiting for each other's resources. 
+* Conditions for it to happen: mutual exclusion, hold and wait, no preemption (resources cannot be forcibly released) 
+and circular wait (circular dependency).
+* To detect it we can use VisualVM/Jconsole
+* To prevent: lock in consistent order, TryLock() with ReentrantLock with a timeout, no nested locks
+
+9. What is livelock? How does it differ from deadlock, and how to mitigate it?
+
+Livelock: Threads are active, but unable to progress because they keep responding to each other's actions. They are stuck in
+a loop of state changes.(Cyclic reactions) symmetry
+
+Prevent them: Introduce delays, assign priorities/orders to threads, limit retry attempts.
+
+10. What is a ConcurrentHashMap class? How does it achieve thread safety without locking map, how does it differ from HashTable?
+It's a thread-safe implementation of Map, designed for high-concurrency environments. 
+
 * Atomicity is the property of an operation that ensures it is performed completely or not at all, without any intermediate state being 
 visible to other threads. An operation is atomic if a single indivisible operation is required to complete it. 
 Count++ is not atomic, because it requires -> 3 operations read-add-write.
