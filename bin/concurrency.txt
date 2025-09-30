@@ -119,6 +119,11 @@ Prevent them: Introduce delays, assign priorities/orders to threads, limit retry
 
 10. What is a ConcurrentHashMap class? How does it achieve thread safety without locking map, how does it differ from HashTable?
 It's a thread-safe implementation of Map, designed for high-concurrency environments. 
+* Divides the map into segments, locks only the segments being modified, while Hashtable locks the whole map
+* Uses fine-grained locks (small segments of code) on buckets, allowing concurrent reads and writes
+* Doesn't accept nulls
+
+
 
 * Atomicity is the property of an operation that ensures it is performed completely or not at all, without any intermediate state being 
 visible to other threads. An operation is atomic if a single indivisible operation is required to complete it. 
@@ -126,3 +131,4 @@ Count++ is not atomic, because it requires -> 3 operations read-add-write.
 assigning values to not primitive types is not atomic either since it's divided into two operations. 
 Compound operations are not atomic 
 Why is this important? because during those multiple operations a thread might access any of those operations causing race conditions
+
