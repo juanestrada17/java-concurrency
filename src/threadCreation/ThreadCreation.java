@@ -1,16 +1,16 @@
-public class ThreadCreationInterface {
+package threadCreation;
+public class ThreadCreation {
     public static void main(String[] args) {
-        // The thread object is created with the runnable instance. 
-        Thread thread1 = new Thread(new MyThread());
-        Thread thread2 =  new Thread(new MyThread());
+        MyThread thread1 = new MyThread();
+        MyThread thread2 = new MyThread();
         thread1.start();
         thread2.start();
     }
     
 }
 
-// Interface is preferable since with it we manage to keep task logic separate from thread creation
-class MyThread implements Runnable{
+// Extend the thread class 
+class MyThread extends Thread {
     @Override
     // Override the run method
     public void run(){

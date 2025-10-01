@@ -1,3 +1,4 @@
+package deadLiveLocks;
 public class DeadlockExample {
     public static void main(String[] args) {
         String resource1 = "Resource1"; 

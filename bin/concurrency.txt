@@ -123,7 +123,43 @@ It's a thread-safe implementation of Map, designed for high-concurrency environm
 * Uses fine-grained locks (small segments of code) on buckets, allowing concurrent reads and writes
 * Doesn't accept nulls
 
+11. CopyOnWriteArrayList
+It's a List implementation where modifications create a new copy of the array (slow writes, fast reads)
+Benefits: Thread safety on reads, good for frequent reads and rare writes. ITERATORS reflect the list's state at creation
+Use cases: Event listeners or observers, caching immutable data
 
+12. What is CountDownLatch in Java? How does it help coordinate threads?
+thread waits for thread
+A synchronization aid that allows one or more threads to wait until a set of operations in other threads completes.
+Coordinates threads ensuring a task waits for dependencies to complete 
+Commonly used when initializing an app, before services like databases and caches must start before processing requests
+
+VS.
+
+13. CyclicBarrier 
+At a certain point all threads wait at the common barrier point for the other threads in order to continue. 
+Mutual synchronization among threads that can be reset and reused. All threads need to call await();
+Runners(Threads) -> Checkpoint(Barrier) -> next Checkpoint/laps (Cyclic) 
+Use case: Parallel computations where threads must complete a phase/barrier before proceeding. Matrix multiplication phase 
+processing
+
+14. Semaphore, and how it can be used to control access to a shared resource
+A synchronization tool that maintains a set of permits. Threads acquire permits using acquire() to access a resource and 
+release a resource. If there are no permits, threads block. 
+Use case: Limiting concurrent access to a resource. Database connections and thread pool slots. 
+
+15. BlockingQueue. How are they used in producer-consumer patterns?
+it's a queue interface that supports blocking operations for adding put() and removing take() elements when the queue is full or empty
+Bounded queue -> has a fixed maximum capacity, it can hold only a certain number of elements at the tim
+1. ArrayBlockingQueue  : Fixed cap. 
+2. LinkedBlockingQueue : Linked nodes, flexible for large queues
+3. SynchronousQueue    : no max cap. each put waits for a take and vice versa. 
+See ProducerConsumer.java for example
+
+16. What is the ThreadLocal class?
+Each thread has its own copy of a variable, accessible via get(), set(), and remove()
+ThreadLocal maintains a map per thread associating threads with their variable instances (PROMOTES THREAD Isolation)
+Use cases: Storing per-thread context user sessions, transaction IDs. 
 
 * Atomicity is the property of an operation that ensures it is performed completely or not at all, without any intermediate state being 
 visible to other threads. An operation is atomic if a single indivisible operation is required to complete it. 
