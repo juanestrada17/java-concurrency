@@ -146,6 +146,7 @@ processing
 14. Semaphore, and how it can be used to control access to a shared resource
 A synchronization tool that maintains a set of permits. Threads acquire permits using acquire() to access a resource and 
 release a resource. If there are no permits, threads block. 
+Number of permits = amount of threads that can access a resource. 
 Use case: Limiting concurrent access to a resource. Database connections and thread pool slots. 
 
 15. BlockingQueue. How are they used in producer-consumer patterns?
@@ -160,6 +161,13 @@ See ProducerConsumer.java for example
 Each thread has its own copy of a variable, accessible via get(), set(), and remove()
 ThreadLocal maintains a map per thread associating threads with their variable instances (PROMOTES THREAD Isolation)
 Use cases: Storing per-thread context user sessions, transaction IDs. 
+
+17. What is starvation in multithreading? What techniques can be used to prevent it?
+Starvation is when a thread is unable to access a resource because other threads continously acquire it. 
+Due to Lock contantion/scheduling
+
+Causes: threads monopolizing shared resources - CPU locks. Unfair locks, ReentrantLock favors threads already holding locks.
+Prevent: Use semaphores or thread pools to limit resource hogging, introduce randomness in scheduling to avoid favoring.
 
 * Atomicity is the property of an operation that ensures it is performed completely or not at all, without any intermediate state being 
 visible to other threads. An operation is atomic if a single indivisible operation is required to complete it. 
